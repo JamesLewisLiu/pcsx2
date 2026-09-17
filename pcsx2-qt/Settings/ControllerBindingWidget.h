@@ -202,6 +202,19 @@ private:
 	Ui::ControllerBindingWidget_Guitar m_ui;
 };
 
+class ControllerBindingWidget_GuitarFreaks final : public ControllerBindingWidget_Base
+{
+	Q_OBJECT
+
+public:
+	ControllerBindingWidget_GuitarFreaks(ControllerBindingWidget* parent);
+	~ControllerBindingWidget_GuitarFreaks() override;
+
+	QIcon getIcon() const override;
+
+	static ControllerBindingWidget_Base* createInstance(ControllerBindingWidget* parent);
+};
+
 class ControllerBindingWidget_Jogcon final : public ControllerBindingWidget_Base
 {
 	Q_OBJECT

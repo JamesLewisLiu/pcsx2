@@ -6,6 +6,7 @@
 #include "SIO/Pad/Pad.h"
 #include "SIO/Pad/PadDualshock2.h"
 #include "SIO/Pad/PadGuitar.h"
+#include "SIO/Pad/PadGuitarFreaks.h"
 #include "SIO/Pad/PadJogcon.h"
 #include "SIO/Pad/PadNegcon.h"
 #include "SIO/Pad/PadPopn.h"
@@ -273,6 +274,7 @@ static const Pad::ControllerInfo* s_controller_info[] = {
 	&PadNotConnected::ControllerInfo,
 	&PadDualshock2::ControllerInfo,
 	&PadGuitar::ControllerInfo,
+	&PadGuitarFreaks::ControllerInfo,
 	&PadJogcon::ControllerInfo,
 	&PadNegcon::ControllerInfo,
 	&PadPopn::ControllerInfo,
@@ -515,6 +517,9 @@ PadBase* Pad::CreatePad(u8 unifiedSlot, ControllerType controllerType, size_t ej
 			break;
 		case ControllerType::Guitar:
 			s_controllers[unifiedSlot] = std::make_unique<PadGuitar>(unifiedSlot, ejectTicks);
+			break;
+		case ControllerType::GuitarFreaks:
+			s_controllers[unifiedSlot] = std::make_unique<PadGuitarFreaks>(unifiedSlot, ejectTicks);
 			break;
 		case ControllerType::Jogcon:
 			s_controllers[unifiedSlot] = std::make_unique<PadJogcon>(unifiedSlot, ejectTicks);
