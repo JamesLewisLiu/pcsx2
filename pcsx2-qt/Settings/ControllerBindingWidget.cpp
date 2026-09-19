@@ -983,7 +983,7 @@ ControllerBindingWidget_GuitarFreaks::~ControllerBindingWidget_GuitarFreaks() = 
 
 QIcon ControllerBindingWidget_GuitarFreaks::getIcon() const
 {
-	return QIcon::fromTheme(getControllerType() == Pad::ControllerType::DrumMania ? "drum-line" : "guitar-line");
+	return getControllerType() == Pad::ControllerType::DrumMania ? QIcon() : QIcon::fromTheme("guitar-line");
 }
 
 ControllerBindingWidget_Base* ControllerBindingWidget_GuitarFreaks::createInstance(ControllerBindingWidget* parent)

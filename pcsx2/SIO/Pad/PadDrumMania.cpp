@@ -5,8 +5,6 @@
 
 #include "Host.h"
 
-#include "IconsPromptFont.h"
-
 static const InputBindingInfo s_bindings[] = {
 	// clang-format off
 	{"HiHat", TRANSLATE_NOOP("Pad", "Hi-Hat"), nullptr, InputBindingInfo::Type::Button, PadDrumMania::Inputs::HI_HAT, GenericInputBinding::Triangle},
@@ -21,7 +19,7 @@ static const InputBindingInfo s_bindings[] = {
 };
 
 const Pad::ControllerInfo PadDrumMania::ControllerInfo = {Pad::ControllerType::DrumMania, "DrumMania",
-	TRANSLATE_NOOP("Pad", "DrumMania"), ICON_FA_DRUM, s_bindings, {}, Pad::VibrationCapabilities::NoVibration};
+	TRANSLATE_NOOP("Pad", "DrumMania"), nullptr, s_bindings, {}, Pad::VibrationCapabilities::NoVibration};
 
 PadDrumMania::PadDrumMania(u8 unifiedSlot, size_t ejectTicks)
 	: PadGuitarFreaks(unifiedSlot, ejectTicks, Pad::ControllerType::DrumMania, ControllerInfo,
