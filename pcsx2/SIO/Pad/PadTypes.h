@@ -68,6 +68,7 @@ namespace Pad
 		Negcon,
 		Popn,
 		GuitarFreaks,
+		DrumMania,
 		Count
 	};
 

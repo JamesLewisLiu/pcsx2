@@ -1391,6 +1391,9 @@
     <ClCompile Include="SIO\Pad\PadDualshock2.cpp">
       <Filter>System\Ps2\Iop\SIO\PAD</Filter>
     </ClCompile>
+    <ClCompile Include="SIO\Pad\PadDrumMania.cpp">
+      <Filter>System\Ps2\Iop\SIO\PAD</Filter>
+    </ClCompile>
     <ClCompile Include="SIO\Pad\PadGuitar.cpp">
       <Filter>System\Ps2\Iop\SIO\PAD</Filter>
     </ClCompile>
@@ -2317,6 +2320,9 @@
       <Filter>System\Ps2\Iop\SIO\PAD</Filter>
     </ClInclude>
     <ClInclude Include="SIO\Pad\PadDualshock2.h">
+      <Filter>System\Ps2\Iop\SIO\PAD</Filter>
+    </ClInclude>
+    <ClInclude Include="SIO\Pad\PadDrumMania.h">
       <Filter>System\Ps2\Iop\SIO\PAD</Filter>
     </ClInclude>
     <ClInclude Include="SIO\Pad\PadGuitar.h">

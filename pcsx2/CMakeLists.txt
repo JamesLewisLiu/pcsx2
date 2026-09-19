@@ -450,6 +450,7 @@ set(pcsx2PADSources
 	SIO/Pad/Pad.cpp
 	SIO/Pad/PadBase.cpp
 	SIO/Pad/PadDualshock2.cpp
+	SIO/Pad/PadDrumMania.cpp
 	SIO/Pad/PadGuitar.cpp
 	SIO/Pad/PadGuitarFreaks.cpp
 	SIO/Pad/PadJogcon.cpp
@@ -461,6 +462,7 @@ set(pcsx2PADHeaders
 	SIO/Pad/Pad.h
 	SIO/Pad/PadBase.h
 	SIO/Pad/PadDualshock2.h
+	SIO/Pad/PadDrumMania.h
 	SIO/Pad/PadGuitar.h
 	SIO/Pad/PadGuitarFreaks.h
 	SIO/Pad/PadJogcon.h

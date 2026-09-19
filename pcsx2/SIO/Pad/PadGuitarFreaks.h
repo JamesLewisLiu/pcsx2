@@ -5,7 +5,7 @@
 
 #include "SIO/Pad/PadBase.h"
 
-class PadGuitarFreaks final : public PadBase
+class PadGuitarFreaks : public PadBase
 {
 public:
 	enum Inputs
@@ -20,10 +20,15 @@ public:
 		LENGTH,
 	};
 
-private:
+protected:
 	u32 buttons = 0xffffffffu;
 	bool commandStage = false;
 	float buttonDeadzone = 0.0f;
+	Pad::ControllerType controllerType;
+	const Pad::ControllerInfo& controllerInfo;
+	std::span<const u8> buttonBitMapping;
+	u16 controllerIdentifierMask;
+	const char* freezeMarker;
 
 	// Since the bindings are ordered for the GuitarFreaks UI, remap them to PS2 button bits.
 	static constexpr std::array<u8, Inputs::LENGTH> bitmaskMapping = {{
@@ -35,6 +40,9 @@ private:
 		8, // SELECT
 		11, // START
 	}};
+
+	PadGuitarFreaks(u8 unifiedSlot, size_t ejectTicks, Pad::ControllerType type,
+		const Pad::ControllerInfo& info, std::span<const u8> mapping, u16 identifier_mask, const char* marker);
 
 	u8 Mystery(u8 commandByte);
 	u8 ButtonQuery(u8 commandByte);

@@ -132,7 +132,7 @@ void ControllerBindingWidget::onTypeChanged()
 	{
 		m_bindings_widget = ControllerBindingWidget_Guitar::createInstance(this);
 	}
-	else if (cinfo->type == Pad::ControllerType::GuitarFreaks)
+	else if (cinfo->type == Pad::ControllerType::GuitarFreaks || cinfo->type == Pad::ControllerType::DrumMania)
 	{
 		m_bindings_widget = ControllerBindingWidget_GuitarFreaks::createInstance(this);
 	}
@@ -983,7 +983,7 @@ ControllerBindingWidget_GuitarFreaks::~ControllerBindingWidget_GuitarFreaks() = 
 
 QIcon ControllerBindingWidget_GuitarFreaks::getIcon() const
 {
-	return QIcon::fromTheme("guitar-line");
+	return QIcon::fromTheme(getControllerType() == Pad::ControllerType::DrumMania ? "drum-line" : "guitar-line");
 }
 
 ControllerBindingWidget_Base* ControllerBindingWidget_GuitarFreaks::createInstance(ControllerBindingWidget* parent)

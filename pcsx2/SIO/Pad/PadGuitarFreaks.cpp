@@ -193,7 +193,19 @@ u8 PadGuitarFreaks::VibrationMap(u8 commandByte)
 }
 
 PadGuitarFreaks::PadGuitarFreaks(u8 unifiedSlot, size_t ejectTicks)
+	: PadGuitarFreaks(unifiedSlot, ejectTicks, Pad::ControllerType::GuitarFreaks, ControllerInfo,
+		bitmaskMapping, 0xa000, "PadGuitarFreaks")
+{
+}
+
+PadGuitarFreaks::PadGuitarFreaks(u8 unifiedSlot, size_t ejectTicks, Pad::ControllerType type,
+	const Pad::ControllerInfo& info, std::span<const u8> mapping, u16 identifier_mask, const char* marker)
 	: PadBase(unifiedSlot, ejectTicks)
+	, controllerType(type)
+	, controllerInfo(info)
+	, buttonBitMapping(mapping)
+	, controllerIdentifierMask(identifier_mask)
+	, freezeMarker(marker)
 {
 	currentMode = Pad::Mode::DIGITAL;
 }
@@ -202,26 +214,26 @@ PadGuitarFreaks::~PadGuitarFreaks() = default;
 
 Pad::ControllerType PadGuitarFreaks::GetType() const
 {
-	return Pad::ControllerType::GuitarFreaks;
+	return controllerType;
 }
 
 const Pad::ControllerInfo& PadGuitarFreaks::GetInfo() const
 {
-	return ControllerInfo;
+	return controllerInfo;
 }
 
 void PadGuitarFreaks::Set(u32 index, float value)
 {
-	if (index >= Inputs::LENGTH)
+	if (index >= buttonBitMapping.size())
 		return;
 
 	const float dzValue = (value < buttonDeadzone) ? 0.0f : value;
 	rawInputs[index] = static_cast<u8>(std::clamp(dzValue * 255.0f, 0.0f, 255.0f));
 
 	if (dzValue > 0.0f)
-		buttons &= ~(1u << bitmaskMapping[index]);
+		buttons &= ~(1u << buttonBitMapping[index]);
 	else
-		buttons |= (1u << bitmaskMapping[index]);
+		buttons |= (1u << buttonBitMapping[index]);
 }
 
 void PadGuitarFreaks::SetRawAnalogs(const std::tuple<u8, u8> left, const std::tuple<u8, u8> right)
@@ -230,14 +242,14 @@ void PadGuitarFreaks::SetRawAnalogs(const std::tuple<u8, u8> left, const std::tu
 
 void PadGuitarFreaks::SetRawPressureButton(u32 index, const std::tuple<bool, u8> value)
 {
-	if (index >= Inputs::LENGTH)
+	if (index >= buttonBitMapping.size())
 		return;
 
 	rawInputs[index] = std::get<1>(value);
 	if (std::get<0>(value))
-		buttons &= ~(1u << bitmaskMapping[index]);
+		buttons &= ~(1u << buttonBitMapping[index]);
 	else
-		buttons |= (1u << bitmaskMapping[index]);
+		buttons |= (1u << buttonBitMapping[index]);
 }
 
 void PadGuitarFreaks::SetAxisScale(float deadzone, float scale)
@@ -301,9 +313,9 @@ std::tuple<u8, u8> PadGuitarFreaks::GetRawRightAnalog() const
 
 u32 PadGuitarFreaks::GetButtons() const
 {
-	// The dedicated controller identifies itself by holding D-pad left and right.
-	// needs proper testing against GuitarFreaks hardware/game detection.
-	return buttons & ~0xA000u;
+	// Dedicated GF/DM controllers identify themselves with a fixed D-pad chord.
+	// needs proper testing against original hardware and more games.
+	return buttons & ~controllerIdentifierMask;
 }
 
 u8 PadGuitarFreaks::GetPressure(u32 index) const
@@ -323,7 +335,7 @@ bool PadGuitarFreaks::IsAnalogLocked() const
 
 bool PadGuitarFreaks::Freeze(StateWrapper& sw)
 {
-	if (!PadBase::Freeze(sw) || !sw.DoMarker("PadGuitarFreaks"))
+	if (!PadBase::Freeze(sw) || !sw.DoMarker(freezeMarker))
 		return false;
 
 	sw.Do(&analogLight);
